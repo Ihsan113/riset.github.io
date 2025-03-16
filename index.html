@@ -4,13 +4,17 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Company Profile - Inovixa Technologies</title>
+    <!-- Meta Description untuk SEO -->
+    <meta name="description" content="Inovixa Technologies menyediakan solusi inovatif untuk web, mobile, dan bot development. Nikmati tampilan HUD modern dengan animasi halus dan UI/UX terbaik." />
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
     
-    <!-- Muat Tailwind CSS dari CDN -->
+    <!-- Tailwind CSS dari CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Konfigurasi Tailwind -->
     <script>
       tailwind.config = {
-        darkMode: 'class', // Aktifkan dark mode berbasis kelas
+        darkMode: 'class',
         theme: {
           extend: {
             colors: {
@@ -22,27 +26,28 @@
       };
     </script>
     
-    <!-- Font Awesome & Google Fonts -->
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
+    <!-- Font Awesome & Google Fonts (gunakan juga sistem font San Francisco) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
     
     <style>
-      /* Gaya umum */
+      /* Global Styles & Smooth Scroll */
+      html {
+        scroll-behavior: smooth;
+      }
       body {
-        font-family: 'Roboto', sans-serif;
+        /* Gunakan font sistem San Francisco, Roboto sebagai fallback */
+        font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
         transition: background-color 0.3s, color 0.3s;
       }
       .hamburger {
         cursor: pointer;
-        transition: all 0.3s;
+        transition: transform 0.3s;
       }
-      /* Mobile menu */
+      .hamburger:hover {
+        transform: scale(1.1);
+      }
+      /* Mobile Menu Animation */
       .mobile-menu {
         animation: slideDown 0.3s ease-out;
       }
@@ -50,271 +55,597 @@
         from { opacity: 0; transform: translateY(-20px); }
         to { opacity: 1; transform: translateY(0); }
       }
-      /* Tombol dark mode */
-      .theme-switcher {
-        position: fixed;
-        bottom: 2rem;
-        right: 2rem;
-        z-index: 50;
-        padding: 0.75rem;
-        border-radius: 9999px;
-        background-color: #fff;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        transition: background-color 0.3s, transform 0.3s;
+      /* Animasi Floating untuk hero effect */
+      .animate-float {
+        animation: float 3s ease-in-out infinite;
       }
-      .theme-switcher:hover {
-        transform: scale(1.05);
+      @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
       }
-      /* Overlay efek mesin ketik */
-      #overlay {
-        position: fixed;
+      /* Section Expertise dengan background canvas */
+      #expertise {
+        position: relative;
+        overflow: hidden;
+      }
+      #expertise-canvas {
+        position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background: #000;
-        color: #0f0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
-        padding: 1rem;
+        z-index: 1;
       }
-      #typewriter {
-        font-family: monospace;
-        font-size: 1rem;
-        white-space: pre-wrap;
+      #expertise .content {
+        position: relative;
+        z-index: 2;
       }
-      /* Efek fade-out & fade-in */
-      .fade-out {
+      /* Animasi saat scroll */
+      .animate-on-scroll {
         opacity: 0;
-        transition: opacity 1s ease;
+        transform: translateY(20px);
+        transition: all 0.6s ease-out;
       }
-      .fade-in {
-        opacity: 0;
-        transition: opacity 1s ease;
-      }
-      .fade-in.visible {
+      .animate-on-scroll.in-view {
         opacity: 1;
+        transform: translateY(0);
+      }
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+        background: rgba(255,255,255,0.1);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: linear-gradient(to bottom, #3B82F6, #8B5CF6);
+        border-radius: 4px;
+      }
+      /* Micro-interactions pada tombol */
+      .group > .btn-hover {
+        position: relative;
+        overflow: hidden;
+      }
+      .group > .btn-hover span {
+        position: relative;
+        z-index: 10;
+      }
+      .group > .btn-hover::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to right, #3B82F6, #8B5CF6);
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+      .group:hover > .btn-hover::after {
+        opacity: 0.2;
+      }
+      /* Custom Cursor (contoh sederhana) */
+      .cursor-dot {
+        width: 8px;
+        height: 8px;
+        background: linear-gradient(45deg, #3B82F6, #8B5CF6);
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        transform: translate(-50%, -50%);
+        z-index: 9999;
+      }
+      .cursor-ring {
+        width: 32px;
+        height: 32px;
+        border: 2px solid rgba(59, 130, 246, 0.5);
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        transform: translate(-50%, -50%);
+        z-index: 9999;
+      }
+      /* Loading Screen */
+      .loading-screen {
+        position: fixed;
+        inset: 0;
+        background: white;
+        z-index: 50;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .loading-screen.dark {
+        background: #1f2937;
       }
     </style>
   </head>
   <body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
     
-    <!-- Overlay: Efek Mesin Ketik -->
-    <div id="overlay">
-      <pre id="typewriter"></pre>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+      <div class="flex space-x-2">
+        <div class="w-4 h-4 bg-blue-500 rounded-full animate-bounce"></div>
+        <div class="w-4 h-4 bg-purple-500 rounded-full animate-bounce delay-100"></div>
+        <div class="w-4 h-4 bg-pink-500 rounded-full animate-bounce delay-200"></div>
+      </div>
     </div>
     
-    <!-- Tombol Dark Mode -->
-    <button id="theme-switcher" class="theme-switcher bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
-      <i id="theme-icon" class="fas fa-moon"></i>
-    </button>
+    <!-- Custom Cursor Elements (optional) -->
+    <div id="cursor-dot" class="cursor-dot"></div>
+    <div id="cursor-ring" class="cursor-ring"></div>
     
-    <!-- Header (disembunyikan sampai overlay selesai) -->
-    <header id="header" class="fade-in bg-white dark:bg-gray-800 shadow fixed w-full top-0 z-40">
-      <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-        <div class="text-2xl font-bold">Inovixa Technologies</div>
-        <!-- Desktop Navigation -->
-        <nav class="hidden md:flex space-x-6">
-          <a class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors" href="#">Home</a>
-          <a class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors" href="#companies">Our Companies</a>
-          <a class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors" href="#services">Services</a>
-          <a class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors" href="#about">About</a>
-          <a class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors" href="#contact">Contact</a>
-        </nav>
-        <!-- Tombol Hamburger Mobile -->
-        <div class="md:hidden hamburger">
-          <i class="fas fa-bars text-xl"></i>
+    <!-- Header -->
+    <header id="header" class="fixed w-full top-0 z-50 backdrop-blur-lg bg-white/80 dark:bg-gray-800/80 border-b border-white/10 dark:border-gray-700/20 rounded-b-lg shadow-lg">
+      <div class="container mx-auto px-8 py-4 flex justify-between items-center">
+        <!-- Logo -->
+        <div class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-500 bg-clip-text text-transparent">
+          Inovixa Technologies
+        </div>
+        <!-- Navigasi & Dark Mode -->
+        <div class="flex items-center space-x-4">
+          <nav class="hidden lg:flex items-center space-x-6 tracking-wide">
+            <a class="text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100 transition-all duration-300" href="#">Home</a>
+            <a class="text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100 transition-all duration-300" href="#companies">Our Companies</a>
+            <a class="text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100 transition-all duration-300" href="#services">Services</a>
+            <a class="text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100 transition-all duration-300" href="#about">About</a>
+            <a class="text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100 transition-all duration-300" href="#contact">Contact</a>
+          </nav>
+          <button id="theme-switcher" class="p-2 rounded-full bg-white/80 dark:bg-gray-800/80 hover:bg-white/90 dark:hover:bg-gray-700/90 transition-all duration-300">
+            <i id="theme-icon" class="fas fa-moon text-lg text-gray-600 dark:text-gray-300"></i>
+          </button>
+          <button class="hamburger lg:hidden p-2 rounded-full bg-gray-100/50 dark:bg-gray-700/30 hover:bg-gray-200/50 dark:hover:bg-gray-600/30 transition-all duration-300">
+            <i class="fas fa-bars text-lg text-gray-600 dark:text-gray-300"></i>
+          </button>
         </div>
       </div>
       <!-- Mobile Menu -->
-      <div id="mobile-menu" class="mobile-menu md:hidden bg-white dark:bg-gray-800 hidden">
-        <div class="container mx-auto px-4 py-4 flex flex-col space-y-4">
-          <a class="py-2 hover:text-blue-600 dark:hover:text-blue-400" href="#">Home</a>
-          <a class="py-2 hover:text-blue-600 dark:hover:text-blue-400" href="#companies">Our Companies</a>
-          <a class="py-2 hover:text-blue-600 dark:hover:text-blue-400" href="#services">Services</a>
-          <a class="py-2 hover:text-blue-600 dark:hover:text-blue-400" href="#about">About</a>
-          <a class="py-2 hover:text-blue-600 dark:hover:text-blue-400" href="#contact">Contact</a>
+      <div id="mobile-menu" class="lg:hidden hidden px-5 pb-5">
+        <div class="backdrop-blur-lg bg-white/80 dark:bg-gray-800/80 rounded-2xl p-4 border border-white/10 dark:border-gray-700/20 shadow-xl">
+          <nav class="flex flex-col space-y-3">
+            <a class="px-4 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-100/50 dark:hover:bg-gray-700/30 rounded-xl transition-all duration-300" href="#">Home</a>
+            <a class="px-4 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-100/50 dark:hover:bg-gray-700/30 rounded-xl transition-all duration-300" href="#companies">Our Companies</a>
+            <a class="px-4 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-100/50 dark:hover:bg-gray-700/30 rounded-xl transition-all duration-300" href="#services">Services</a>
+            <a class="px-4 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-100/50 dark:hover:bg-gray-700/30 rounded-xl transition-all duration-300" href="#about">About</a>
+            <a class="px-4 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-100/50 dark:hover:bg-gray-700/30 rounded-xl transition-all duration-300" href="#contact">Contact</a>
+          </nav>
         </div>
       </div>
     </header>
     
-    <!-- Main Content (disembunyikan sampai overlay selesai) -->
-    <main id="main" class="fade-in container mx-auto px-4 pt-24 pb-10">
+    <!-- Konten Utama -->
+    <main id="main" class="container mx-auto px-4 pt-28 pb-10">
       <!-- Hero Section -->
-      <section class="text-center mb-16">
-        <h1 class="text-4xl md:text-5xl font-bold mb-6">
-          Welcome to Inovixa Technologies
-        </h1>
-        <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-          Innovative solutions for web, mobile, and bot development. Experience the fusion of classic business values with modern technology.
-        </p>
+      <section class="text-center mb-20 animate-on-scroll">
+        <div class="max-w-4xl mx-auto">
+          <h1 class="text-5xl md:text-6xl font-extrabold mb-6 bg-gradient-to-r from-blue-600 to-purple-500 bg-clip-text text-transparent">
+            Welcome to Inovixa Technologies
+          </h1>
+          <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
+            Innovative solutions for web, mobile, and bot development. Experience the fusion of classic business values with modern technology.
+          </p>
+          <div class="mt-8 animate-float">
+            <div class="w-24 h-24 bg-gradient-to-r from-blue-500/20 to-purple-500/20 blur-2xl rounded-full mx-auto"></div>
+          </div>
+        </div>
       </section>
       
       <!-- Our Companies Section -->
-      <section id="companies" class="mb-16">
-        <h2 class="text-3xl font-bold text-center mb-8">Our Companies</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <!-- ForestAPI Card -->
-          <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow text-center">
-            <img alt="Logo of ForestAPI" class="mx-auto mb-4 w-24 h-24 object-contain rounded-full" src="https://storage.googleapis.com/a1aa/image/cwkkmaSEoWX7EakcaIcMd4QaFw4x65H12J6LptD9MTY.jpg" width="100" height="100" />
-            <h3 class="text-xl font-bold mb-2">ForestAPI</h3>
-            <p class="text-gray-600 dark:text-gray-300">
-              Your gateway to seamless API integrations and robust backend solutions.
-            </p>
+      <section id="companies" class="mb-20 animate-on-scroll">
+        <h2 class="text-3xl font-bold text-center mb-12 bg-gradient-to-r from-blue-600 to-purple-500 bg-clip-text text-transparent">
+          Our Companies
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+          <div class="bg-white/5 dark:bg-gray-800/50 backdrop-blur-lg p-8 rounded-3xl shadow-2xl hover:-translate-y-2 transition-all duration-300 border border-white/10">
+            <div class="flex flex-col items-center">
+              <img alt="ForestAPI" class="mb-6 w-32 h-32 object-contain rounded-2xl shadow-lg" src="https://forestapi.web.id/images/banner.jpeg"/>
+              <h3 class="text-2xl font-semibold mb-3">ForestAPI</h3>
+              <p class="text-gray-600 dark:text-gray-300 text-center leading-relaxed">
+                Your gateway to seamless API integrations and robust backend solutions.
+              </p>
+            </div>
           </div>
-          <!-- UniShop Card -->
-          <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow text-center">
-            <img alt="Logo of UniShop" class="mx-auto mb-4 w-24 h-24 object-contain rounded-full" src="https://storage.googleapis.com/a1aa/image/C6C9Rsm7e2lH3V7_giHeyzOBRiDHH9bZG5DKTKoIkNY.jpg" width="100" height="100" />
-            <h3 class="text-xl font-bold mb-2">UniShop</h3>
-            <p class="text-gray-600 dark:text-gray-300">
-              Empowering e-commerce with innovative shopping solutions and seamless integrations.
-            </p>
+          <div class="bg-white/5 dark:bg-gray-800/50 backdrop-blur-lg p-8 rounded-3xl shadow-2xl hover:-translate-y-2 transition-all duration-300 border border-white/10">
+            <div class="flex flex-col items-center">
+              <img alt="UniShop" class="mb-6 w-32 h-32 object-contain rounded-2xl shadow-lg" src="https://storage.googleapis.com/a1aa/image/C6C9Rsm7e2lH3V7_giHeyzOBRiDHH9bZG5DKTKoIkNY.jpg"/>
+              <h3 class="text-2xl font-semibold mb-3">UniShop</h3>
+              <p class="text-gray-600 dark:text-gray-300 text-center leading-relaxed">
+                Empowering e-commerce with innovative shopping solutions and seamless integrations.
+              </p>
+            </div>
           </div>
         </div>
       </section>
       
-      <!-- Services Section -->
-      <section id="services" class="mb-16">
-        <h2 class="text-3xl font-bold text-center mb-8">Our Services</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          <!-- Web Development Service -->
-          <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow text-center">
-            <i class="fas fa-code text-4xl mb-4 text-blue-600"></i>
-            <h3 class="text-xl font-bold mb-2">Web Development</h3>
-            <p class="text-gray-600 dark:text-gray-300">
-              Building responsive websites with modern design and optimal performance.
-            </p>
+      <!-- Our Services Section -->
+      <section id="services" class="mb-20 animate-on-scroll">
+        <h2 class="text-3xl font-bold text-center mb-12 bg-gradient-to-r from-blue-600 to-purple-500 bg-clip-text text-transparent">
+          Our Services
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 max-w-7xl mx-auto">
+          <div class="bg-white/5 dark:bg-gray-800/50 backdrop-blur-lg p-6 rounded-2xl shadow-xl hover:-translate-y-2 transition-all duration-300 border border-white/10">
+            <div class="flex flex-col items-center text-center">
+              <div class="mb-4 p-4 bg-blue-500/10 rounded-2xl">
+                <i class="fas fa-code text-3xl text-blue-500"></i>
+              </div>
+              <h3 class="text-xl font-semibold mb-2">Web Development</h3>
+              <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
+                Building responsive websites with modern design and optimal performance.
+              </p>
+            </div>
           </div>
-          <!-- Mobile App Development -->
-          <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow text-center">
-            <i class="fas fa-mobile-alt text-4xl mb-4 text-blue-600"></i>
-            <h3 class="text-xl font-bold mb-2">Mobile Applications</h3>
-            <p class="text-gray-600 dark:text-gray-300">
-              Creating user-friendly mobile apps for both Android and iOS platforms.
-            </p>
+          <div class="bg-white/5 dark:bg-gray-800/50 backdrop-blur-lg p-6 rounded-2xl shadow-xl hover:-translate-y-2 transition-all duration-300 border border-white/10">
+            <div class="flex flex-col items-center text-center">
+              <div class="mb-4 p-4 bg-green-500/10 rounded-2xl">
+                <i class="fas fa-mobile-alt text-3xl text-green-500"></i>
+              </div>
+              <h3 class="text-xl font-semibold mb-2">Mobile Applications</h3>
+              <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
+                Creating user-friendly mobile apps for Android and iOS platforms.
+              </p>
+            </div>
           </div>
-          <!-- WhatsApp Bot -->
-          <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow text-center">
-            <i class="fab fa-whatsapp text-4xl mb-4 text-green-500"></i>
-            <h3 class="text-xl font-bold mb-2">WhatsApp Bot</h3>
-            <p class="text-gray-600 dark:text-gray-300">
-              Automating customer interactions and support via WhatsApp.
-            </p>
+          <div class="bg-white/5 dark:bg-gray-800/50 backdrop-blur-lg p-6 rounded-2xl shadow-xl hover:-translate-y-2 transition-all duration-300 border border-white/10">
+            <div class="flex flex-col items-center text-center">
+              <div class="mb-4 p-4 bg-green-500/10 rounded-2xl">
+                <i class="fab fa-whatsapp text-3xl text-green-500"></i>
+              </div>
+              <h3 class="text-xl font-semibold mb-2">WhatsApp Bot</h3>
+              <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
+                Automating customer interactions and support via WhatsApp.
+              </p>
+            </div>
           </div>
-          <!-- Telegram Bot -->
-          <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow text-center">
-            <i class="fab fa-telegram-plane text-4xl mb-4 text-blue-500"></i>
-            <h3 class="text-xl font-bold mb-2">Telegram Bot</h3>
-            <p class="text-gray-600 dark:text-gray-300">
-              Delivering fast and reliable solutions through Telegram automation.
-            </p>
+          <div class="bg-white/5 dark:bg-gray-800/50 backdrop-blur-lg p-6 rounded-2xl shadow-xl hover:-translate-y-2 transition-all duration-300 border border-white/10">
+            <div class="flex flex-col items-center text-center">
+              <div class="mb-4 p-4 bg-blue-500/10 rounded-2xl">
+                <i class="fab fa-telegram-plane text-3xl text-blue-500"></i>
+              </div>
+              <h3 class="text-xl font-semibold mb-2">Telegram Bot</h3>
+              <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
+                Delivering fast and reliable solutions through Telegram automation.
+              </p>
+            </div>
           </div>
         </div>
+      </section>
+      
+      <!-- Testimonial Section dengan Floating Cards -->
+      <section class="py-20 relative animate-on-scroll">
+        <div class="max-w-7xl mx-auto px-4">
+          <div class="text-center mb-16">
+            <h2 class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-500 bg-clip-text text-transparent">
+              What Our Clients Say
+            </h2>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="relative bg-white/5 backdrop-blur-lg p-8 rounded-3xl border border-white/10 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-3">
+              <div class="absolute -top-5 left-6 w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-400 rounded-full flex items-center justify-center">
+                <span class="text-2xl">🗣️</span>
+              </div>
+              <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+                "Their development team transformed our e-commerce platform completely. Amazing attention to detail!"
+              </p>
+              <div class="border-t border-white/10 pt-4">
+                <h4 class="font-semibold">John Doe</h4>
+                <p class="text-sm text-gray-500">CEO of Tech Corp</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Pricing Section dengan Dynamic Cards -->
+      <section class="rounded-lg py-20 bg-gradient-to-b from-white/50 to-purple-50/20 dark:from-gray-900/50 dark:to-gray-800/50 animate-on-scroll">
+        <div class="max-w-5xl mx-auto px-4">
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="bg-white/5 backdrop-blur-lg p-8 rounded-[2rem] border-2 border-purple-500/20 hover:border-purple-500/40 transition-all duration-500">
+              <div class="mb-6">
+                <h3 class="text-2xl font-bold mb-2">Starter</h3>
+                <div class="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-500 bg-clip-text text-transparent">
+                  $99<span class="text-lg text-gray-500">/mo</span>
+                </div>
+              </div>
+              <ul class="space-y-4">
+                <li class="flex items-center">
+                  <div class="w-6 h-6 bg-blue-500/10 rounded-full flex items-center justify-center mr-3">
+                    <i class="fas fa-check text-blue-500 text-xs"></i>
+                  </div>
+                  <span>5 Projects</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Team Section dengan Hover Effect -->
+      <section class="py-20 animate-on-scroll">
+        <div class="max-w-6xl mx-auto px-4">
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div class="group relative">
+              <div class="bg-white/5 backdrop-blur-lg p-6 rounded-2xl border border-white/10 shadow-lg transition-all duration-500 hover:-translate-y-3">
+                <div class="relative mb-6">
+                  <div class="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-xl blur-lg group-hover:blur-xl transition-all"></div>
+                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6NqPlYFpJcWY_pgdGMfYZ6G7GFkDlMVYS-idD31zUd9AoSSiI3Ql6NKI&s=10" class="w-full h-60 object-cover rounded-xl" alt="Team Member">
+                </div>
+                <h4 class="text-xl font-semibold mb-2">Jane Smith</h4>
+                <p class="text-gray-500">Lead Developer</p>
+                <div class="flex space-x-3 mt-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <a href="#" class="p-2 bg-white/5 rounded-full hover:bg-blue-500/20">
+                    <i class="fab fa-linkedin text-blue-500"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Project Showcase dengan Parallax Effect -->
+      <section class="py-20 relative overflow-hidden animate-on-scroll">
+        <div class="max-w-7xl mx-auto px-4">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="relative h-[500px] rounded-3xl overflow-hidden group">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaKqGIXIwCAVB3MYcWIPZM5CeXqDlhWfdrjJUsy6hVDM-MbZVcJgNrKLey&s=10" class="w-full h-full object-cover transform group-hover:scale-105 transition-all duration-700" alt="Project Showcase">
+              <div class="absolute bottom-0 left-0 p-8 z-20">
+                <h3 class="text-2xl font-bold text-white mb-2">E-commerce Platform</h3>
+                <div class="flex space-x-2">
+                  <span class="px-3 py-1 bg-white/10 backdrop-blur-sm rounded-full text-white text-sm">React</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Stats Counter dengan Animated Numbers -->
+      <section class="py-20 bg-white/5 backdrop-blur-lg animate-on-scroll rounded-lg">
+        <div class="max-w-6xl mx-auto px-4">
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div class="text-center">
+              <div class="text-5xl font-bold mb-3 bg-gradient-to-r from-blue-600 to-purple-500 bg-clip-text text-transparent">
+                <span class="counter" data-target="150">0</span>+
+              </div>
+              <p class="text-gray-500">Projects Completed</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Programmer Expertise Section (Canvas Background) -->
+      <section id="expertise" class="relative mb-20 min-h-[500px] animate-on-scroll">
+        <canvas id="expertise-canvas" class="absolute inset-0 w-full h-full"></canvas>
+        <div class="relative z-10 container mx-auto px-4 py-10">
+          <h2 class="text-3xl font-bold text-center mb-12 bg-gradient-to-r from-blue-600 to-purple-500 bg-clip-text text-transparent">
+            Programmer Expertise
+          </h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="bg-white/10 dark:bg-gray-700/30 backdrop-blur-lg p-6 rounded-2xl shadow-2xl hover:-translate-y-2 transition-all duration-300 border border-white/10">
+              <div class="flex flex-col items-center text-center">
+                <i class="fab fa-js-square text-5xl text-yellow-500 mb-4"></i>
+                <h3 class="text-xl font-semibold mb-2">JavaScript</h3>
+                <p class="text-sm text-gray-200">
+                  Expertise in modern JavaScript, ES6+, and asynchronous programming.
+                </p>
+              </div>
+            </div>
+            <div class="bg-white/10 dark:bg-gray-700/30 backdrop-blur-lg p-6 rounded-2xl shadow-2xl hover:-translate-y-2 transition-all duration-300 border border-white/10">
+              <div class="flex flex-col items-center text-center">
+                <i class="fab fa-python text-5xl text-blue-500 mb-4"></i>
+                <h3 class="text-xl font-semibold mb-2">Python</h3>
+                <p class="text-sm text-gray-200">
+                  Strong in data analysis, automation, and web frameworks like Django.
+                </p>
+              </div>
+            </div>
+            <div class="bg-white/10 dark:bg-gray-700/30 backdrop-blur-lg p-6 rounded-2xl shadow-2xl hover:-translate-y-2 transition-all duration-300 border border-white/10">
+              <div class="flex flex-col items-center text-center">
+                <i class="fab fa-react text-5xl text-cyan-500 mb-4"></i>
+                <h3 class="text-xl font-semibold mb-2">React</h3>
+                <p class="text-sm text-gray-200">
+                  Proficient in building scalable, component-driven user interfaces.
+                </p>
+              </div>
+            </div>
+            <div class="bg-white/10 dark:bg-gray-700/30 backdrop-blur-lg p-6 rounded-2xl shadow-2xl hover:-translate-y-2 transition-all duration-300 border border-white/10">
+              <div class="flex flex-col items-center text-center">
+                <i class="fab fa-node-js text-5xl text-green-500 mb-4"></i>
+                <h3 class="text-xl font-semibold mb-2">Node.js</h3>
+                <p class="text-sm text-gray-200">
+                  Experienced in building RESTful APIs and real-time applications.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- FAQ Section -->
+      <section class="max-w-4xl mx-auto px-4 py-16 animate-on-scroll">
+        <h2 class="text-3xl font-bold text-center mb-12 bg-gradient-to-r from-blue-600 to-purple-500 bg-clip-text text-transparent">
+          Frequently Asked Questions
+        </h2>
+        <div class="space-y-8 relative">
+          <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-600 to-transparent"></div>
+          <div class="group">
+            <div class="relative bg-white/5 dark:bg-gray-800/50 backdrop-blur-lg p-8 rounded-2xl border border-white/10 dark:border-gray-600/30 shadow-md hover:shadow-lg transition-all duration-300">
+              <div class="absolute -left-2 top-6 h-[calc(100%-3rem)] w-0.5 bg-gradient-to-b from-transparent via-gray-300 dark:via-gray-500 to-transparent [mask-image:linear-gradient(to_right,transparent_0%,#000_10%,#000_90%,transparent_100%)]"></div>
+              <details class="faq-details">
+                <summary class="list-none cursor-pointer">
+                  <div class="flex items-center justify-between">
+                    <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100">Bagaimana cara memulai project?</h3>
+                    <div class="ml-4 transform transition-transform duration-300 faq-chevron">
+                      <i class="fas fa-chevron-down text-blue-500 text-sm"></i>
+                    </div>
+                  </div>
+                </summary>
+                <div class="mt-4 pt-4 border-t border-white/10 dark:border-gray-600/20">
+                  <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    Mulailah dengan menghubungi tim kami melalui formulir kontak. Kami akan menjadwalkan konsultasi gratis untuk memahami kebutuhan Anda dan memberikan proposal detail.
+                  </p>
+                </div>
+              </details>
+            </div>
+          </div>
+          <div class="group">
+            <div class="relative bg-white/5 dark:bg-gray-800/50 backdrop-blur-lg p-8 rounded-2xl border border-white/10 dark:border-gray-600/30 shadow-md hover:shadow-lg transition-all duration-300">
+              <div class="absolute -left-2 top-6 h-[calc(100%-3rem)] w-0.5 bg-gradient-to-b from-transparent via-gray-300 dark:via-gray-500 to-transparent [mask-image:linear-gradient(to_right,transparent_0%,#000_10%,#000_90%,transparent_100%)]"></div>
+              <details class="faq-details">
+                <summary class="list-none cursor-pointer">
+                  <div class="flex items-center justify-between">
+                    <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100">Berapa lama waktu pengembangan?</h3>
+                    <div class="ml-4 transform transition-transform duration-300 faq-chevron">
+                      <i class="fas fa-chevron-down text-blue-500 text-sm"></i>
+                    </div>
+                  </div>
+                </summary>
+                <div class="mt-4 pt-4 border-t border-white/10 dark:border-gray-600/20">
+                  <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    Waktu pengembangan bervariasi tergantung kompleksitas project. Projek sederhana biasanya memakan waktu 2-4 minggu, sedangkan projek kompleks bisa memakan waktu 3-6 bulan.
+                  </p>
+                </div>
+              </details>
+            </div>
+          </div>
+        </div>
+        <div class="mt-8 h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-600 to-transparent"></div>
       </section>
       
       <!-- About Section -->
-      <section id="about" class="text-center mb-16">
-        <div class="max-w-4xl mx-auto">
-          <h2 class="text-3xl font-bold mb-6">About Us</h2>
-          <p class="text-lg text-gray-600 dark:text-gray-300 mb-8">
-            We are a dynamic company dedicated to transforming your digital presence with cutting-edge technology and creative solutions. Our portfolio spans web development, mobile apps, and bot automation.
-          </p>
-          <img alt="Team Photo" class="mx-auto rounded-xl shadow-lg w-full h-auto" src="https://storage.googleapis.com/a1aa/image/AqcKVhCAhJ5b6QsBEdra1GW8n2QtPC2aGLN0S6q4cFA.jpg" width="800" height="400" />
+      <section id="about" class="mb-20 animate-on-scroll">
+        <div class="max-w-6xl mx-auto">
+          <div class="bg-white/5 dark:bg-gray-800/50 backdrop-blur-lg rounded-[2.5rem] p-8 shadow-2xl border border-white/10">
+            <h2 class="text-3xl font-bold text-center mb-8 bg-gradient-to-r from-blue-600 to-purple-500 bg-clip-text text-transparent">
+              About Us
+            </h2>
+            <p class="text-center text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+              We are a dynamic company dedicated to transforming your digital presence with cutting-edge technology.
+            </p>
+            <div class="relative group">
+              <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-500 rounded-3xl blur opacity-25 group-hover:opacity-40 transition duration-1000"></div>
+              <img alt="Team" class="w-full h-auto rounded-2xl transform transition duration-500 hover:scale-98" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQavcLPHhVKNu7pKG-zSqvC3wBnXAWxxcFpLjWPEdmo3WejqbGbfwafQDM&s=10"/>
+            </div>
+          </div>
         </div>
       </section>
       
       <!-- Contact Section -->
-      <section id="contact" class="mb-16">
-        <h2 class="text-3xl font-bold text-center mb-8">Get in Touch</h2>
+      <section id="contact" class="mb-20 animate-on-scroll">
         <div class="max-w-2xl mx-auto">
-          <form class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
-            <div class="mb-4">
-              <label class="block text-gray-700 dark:text-gray-200 mb-2" for="name">Name</label>
-              <input class="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600" id="name" type="text" placeholder="Your name">
-            </div>
-            <div class="mb-4">
-              <label class="block text-gray-700 dark:text-gray-200 mb-2" for="email">Email</label>
-              <input class="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600" id="email" type="email" placeholder="Your email">
-            </div>
-            <div class="mb-4">
-              <label class="block text-gray-700 dark:text-gray-200 mb-2" for="message">Message</label>
-              <textarea class="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600" id="message" rows="5" placeholder="Your message"></textarea>
-            </div>
-            <button class="w-full bg-blue-600 text-white p-3 rounded hover:bg-blue-700 transition-colors" type="submit">
-              Send Message
-            </button>
-          </form>
+          <div class="bg-white/5 dark:bg-gray-800/50 backdrop-blur-lg p-8 rounded-3xl shadow-2xl border border-white/10">
+            <h2 class="text-3xl font-bold text-center mb-8 bg-gradient-to-r from-blue-600 to-purple-500 bg-clip-text text-transparent">
+              Contact Us
+            </h2>
+            <form class="space-y-6">
+              <div>
+                <input 
+                  class="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 placeholder-gray-400 dark:placeholder-gray-500"
+                  placeholder="Your name"
+                  type="text"
+                />
+              </div>
+              <div>
+                <input 
+                  class="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 placeholder-gray-400 dark:placeholder-gray-500"
+                  placeholder="Your email"
+                  type="email"
+                />
+              </div>
+              <div>
+                <textarea 
+                  class="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 placeholder-gray-400 dark:placeholder-gray-500"
+                  placeholder="Your message"
+                  rows="4"
+                ></textarea>
+              </div>
+              <button class="w-full py-4 px-6 bg-gradient-to-r from-blue-600 to-purple-500 text-white font-semibold rounded-2xl transition-all duration-300 hover:shadow-xl hover:from-blue-700 hover:to-purple-600">
+                Send Message
+              </button>
+            </form>
+          </div>
         </div>
       </section>
     </main>
     
-    <!-- Footer (disembunyikan sampai overlay selesai) -->
-    <footer id="footer" class="fade-in bg-white dark:bg-gray-800 py-8 border-t border-gray-200 dark:border-gray-700">
-      <div class="container mx-auto px-4 text-center">
-        <div class="flex flex-col md:flex-row justify-between items-center mb-6">
-          <div class="mb-4 md:mb-0">
-            <div class="text-xl font-bold mb-2">Inovixa Technologies</div>
-            <p class="text-sm text-gray-600 dark:text-gray-300">Innovating since 2023</p>
+    <!-- Footer -->
+    <footer id="footer" class="bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg border-t border-gray-100/50 dark:border-gray-700/50 py-10">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
+          <div class="space-y-4">
+            <div class="flex items-center gap-2">
+              <div class="text-2xl font-semibold bg-gradient-to-r from-blue-600 to-purple-500 bg-clip-text text-transparent">
+                Inovixa
+              </div>
+              <span class="text-xs text-gray-500 dark:text-gray-400 px-2 py-1 rounded-full bg-gray-100/50 dark:bg-gray-800/50">Since 2023</span>
+            </div>
+            <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
+              Redefining the future of digital experiences
+            </p>
           </div>
-          <div class="flex space-x-6">
-            <a class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400" href="#">
-              <i class="fab fa-facebook-f"></i>
-            </a>
-            <a class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400" href="#">
-              <i class="fab fa-twitter"></i>
-            </a>
-            <a class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400" href="#">
-              <i class="fab fa-linkedin-in"></i>
-            </a>
+          <div class="space-y-4">
+            <h3 class="text-gray-800 dark:text-gray-200 font-medium">Quick Links</h3>
+            <nav class="flex flex-col space-y-2">
+              <a href="#" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-300 text-sm">About Us</a>
+              <a href="#" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-300 text-sm">Careers</a>
+              <a href="#" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-300 text-sm">Blog</a>
+            </nav>
+          </div>
+          <div class="space-y-4">
+            <h3 class="text-gray-800 dark:text-gray-200 font-medium">Contact</h3>
+            <div class="flex flex-col space-y-2 text-sm">
+              <p class="text-gray-600 dark:text-gray-400">hello@inovixa.com</p>
+              <p class="text-gray-600 dark:text-gray-400">+1 (555) 123-4567</p>
+            </div>
+          </div>
+          <div class="space-y-4">
+            <h3 class="text-gray-800 dark:text-gray-200 font-medium">Connect</h3>
+            <div class="flex space-x-4">
+              <a href="#" class="p-2 rounded-full bg-gray-100/50 dark:bg-gray-800/50 hover:bg-gray-200/50 dark:hover:bg-gray-700/50 transition-all duration-300" aria-label="Twitter">
+                <svg class="w-5 h-5 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
+                </svg>
+              </a>
+              <a href="#" class="p-2 rounded-full bg-gray-100/50 dark:bg-gray-800/50 hover:bg-gray-200/50 dark:hover:bg-gray-700/50 transition-all duration-300" aria-label="LinkedIn">
+                <svg class="w-5 h-5 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/>
+                  <circle cx="4" cy="4" r="2" stroke="none"/>
+                </svg>
+              </a>
+              <a href="#" class="p-2 rounded-full bg-gray-100/50 dark:bg-gray-800/50 hover:bg-gray-200/50 dark:hover:bg-gray-700/50 transition-all duration-300" aria-label="GitHub">
+                <svg class="w-5 h-5 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 7.07c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/>
+                </svg>
+              </a>
+            </div>
           </div>
         </div>
-        <p class="text-sm text-gray-600 dark:text-gray-300">
-          © 2023 Inovixa Technologies. All rights reserved.
-        </p>
+        <div class="pt-8 border-t border-gray-100/30 dark:border-gray-700/30">
+          <p class="text-center text-sm text-gray-500/80 dark:text-gray-400/80">
+            © 2023 Inovixa Technologies. All rights reserved.<br>
+            <span class="mt-1 block text-xs opacity-75">Crafted with <span class="text-red-500">♥</span> in Silicon Valley</span>
+          </p>
+        </div>
       </div>
     </footer>
     
+    <!-- Tombol Scroll Up -->
+    <button 
+      id="scroll-up" 
+      class="hidden fixed bottom-6 right-6 bg-white/20 backdrop-blur-lg text-[#3779dce0] p-4 rounded-full shadow-2xl hover:bg-white/30 transition-all duration-300 ease-ios hover:scale-105 active:scale-95 border border-white/10 focus:outline-none focus:ring-2 focus:ring-blue-500/50 z-50" 
+      aria-label="Scroll to top"
+    >
+      <svg 
+        xmlns="http://www.w3.org/2000/svg" 
+        class="h-6 w-6" 
+        fill="none" 
+        viewBox="0 0 24 24" 
+        stroke="currentColor" 
+        stroke-width="2"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
+      </svg>
+    </button>
+    
     <!-- JavaScript -->
     <script>
-     function startTypewriter(codeText) {
-  const typewriterEl = document.getElementById('typewriter');
-  let index = 0;
-  const chunkSize = Math.ceil(codeText.length / 50); // Ketik beberapa huruf sekaligus
-  const speed = Math.max(1, 10000 / (codeText.length / chunkSize));
-
-  function type() {
-    if (index < codeText.length) {
-      typewriterEl.textContent += codeText.slice(index, index + chunkSize);
-      index += chunkSize;
-      setTimeout(type, speed);
-    } else {
-      setTimeout(() => {
-        document.getElementById('overlay').classList.add('fade-out');
-        setTimeout(() => {
-          document.getElementById('overlay').remove();
-          document.getElementById('header').classList.add('visible');
-          document.getElementById('main').classList.add('visible');
-          document.getElementById('footer').classList.add('visible');
-        }, 500);
-      }, 500);
-    }
-  }
-  type();
-}
-
-
-      
-      // Ambil data JSON dari file code.json
-      fetch('code.json')
-        .then(response => response.json())
-        .then(data => {
-          startTypewriter(data.text);
-        })
-        .catch(err => console.error('Error mengambil kode dari JSON:', err));
-      
-      // Dark Mode Toggle
+      // Toggle Dark Mode
       const themeButton = document.getElementById('theme-switcher');
       const themeIcon = document.getElementById('theme-icon');
       function toggleTheme() {
@@ -322,7 +653,6 @@
         themeIcon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
         localStorage.setItem('theme', isDark ? 'dark' : 'light');
       }
-      // Set mode awal
       if (
         localStorage.getItem('theme') === 'dark' ||
         (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)
@@ -332,7 +662,7 @@
       }
       themeButton.addEventListener('click', toggleTheme);
       
-      // Hamburger Menu Toggle (Mobile)
+      // Hamburger Menu Toggle
       const hamburger = document.querySelector('.hamburger');
       const mobileMenu = document.getElementById('mobile-menu');
       hamburger.addEventListener('click', (e) => {
@@ -343,6 +673,127 @@
         if (!hamburger.contains(e.target) && !mobileMenu.contains(e.target)) {
           mobileMenu.classList.add('hidden');
         }
+      });
+      
+      // Tombol Scroll Up
+      const scrollUpBtn = document.getElementById('scroll-up');
+      window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) {
+          scrollUpBtn.classList.remove('hidden');
+        } else {
+          scrollUpBtn.classList.add('hidden');
+        }
+      });
+      scrollUpBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+      
+      // Particle Animation untuk Programmer Expertise Section
+      const canvas = document.getElementById("expertise-canvas");
+      const ctx = canvas.getContext("2d");
+      function resizeCanvas() {
+        const parent = canvas.parentNode;
+        canvas.width = parent.clientWidth;
+        canvas.height = parent.clientHeight;
+      }
+      window.addEventListener("resize", resizeCanvas);
+      resizeCanvas();
+      class Particle {
+        constructor(x, y, radius, color, speed, angle) {
+          this.x = x;
+          this.y = y;
+          this.radius = radius;
+          this.color = color;
+          this.speed = speed;
+          this.angle = angle;
+        }
+        update() {
+          this.x += Math.cos(this.angle) * this.speed;
+          this.y += Math.sin(this.angle) * this.speed;
+          if (this.x < 0 || this.x > canvas.width) this.angle = Math.PI - this.angle;
+          if (this.y < 0 || this.y > canvas.height) this.angle = -this.angle;
+        }
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+          ctx.fillStyle = this.color;
+          ctx.fill();
+        }
+      }
+      let particles = [];
+      function initParticles() {
+        particles = [];
+        const numParticles = Math.floor((canvas.width * canvas.height) / 8000);
+        for (let i = 0; i < numParticles; i++) {
+          let x = Math.random() * canvas.width;
+          let y = Math.random() * canvas.height;
+          let radius = Math.random() * 2 + 1;
+          let color = `rgba(55,121,220,${Math.random() * 0.5 + 0.3})`;
+          let speed = Math.random() * 1 + 0.3;
+          let angle = Math.random() * Math.PI * 2;
+          particles.push(new Particle(x, y, radius, color, speed, angle));
+        }
+      }
+      function animateParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let particle of particles) {
+          particle.update();
+          particle.draw();
+        }
+        requestAnimationFrame(animateParticles);
+      }
+      initParticles();
+      animateParticles();
+      
+      // Animated Numbers (Stats Counter)
+      const counters = document.querySelectorAll('.counter');
+      counters.forEach(counter => {
+        const target = +counter.getAttribute('data-target');
+        const duration = 2000;
+        const updateCount = () => {
+          const current = parseFloat(counter.innerText);
+          const increment = target / (duration / 10);
+          if (current < target) {
+            counter.innerText = Math.ceil(current + increment);
+            setTimeout(updateCount, 10);
+          } else {
+            counter.innerText = target + '+';
+          }
+        }
+        updateCount();
+      });
+      
+      // Intersection Observer untuk animasi scroll
+      document.addEventListener("DOMContentLoaded", function() {
+        const observerOptions = { threshold: 0.3 };
+        const observer = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('in-view');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, observerOptions);
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+          observer.observe(el);
+        });
+      });
+      
+      // Sembunyikan loading screen setelah halaman termuat
+      window.addEventListener("load", function() {
+        const loadingScreen = document.getElementById('loading-screen');
+        loadingScreen.style.opacity = '0';
+        setTimeout(() => { loadingScreen.style.display = 'none'; }, 500);
+      });
+      
+      // (Optional) Custom Cursor Effect
+      const cursorDot = document.getElementById('cursor-dot');
+      const cursorRing = document.getElementById('cursor-ring');
+      document.addEventListener('mousemove', e => {
+        cursorDot.style.left = e.pageX + 'px';
+        cursorDot.style.top = e.pageY + 'px';
+        cursorRing.style.left = e.pageX + 'px';
+        cursorRing.style.top = e.pageY + 'px';
       });
     </script>
   </body>

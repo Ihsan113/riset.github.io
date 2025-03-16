@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Company Profile - Inovixa Technologies</title>
+    
+    <!-- Muat Tailwind CSS dari CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Konfigurasi Tailwind -->
+    <script>
+      tailwind.config = {
+        darkMode: 'class', // Aktifkan dark mode berbasis kelas
+        theme: {
+          extend: {
+            colors: {
+              primary: '#1E40AF',
+              secondary: '#64748B'
+            }
+          }
+        }
+      };
+    </script>
+    
+    <!-- Font Awesome & Google Fonts -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    
+    <style>
+      /* Gaya umum */
+      body {
+        font-family: 'Roboto', sans-serif;
+        transition: background-color 0.3s, color 0.3s;
+      }
+      .hamburger {
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+      /* Mobile menu */
+      .mobile-menu {
+        animation: slideDown 0.3s ease-out;
+      }
+      @keyframes slideDown {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      /* Tombol dark mode */
+      .theme-switcher {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        z-index: 50;
+        padding: 0.75rem;
+        border-radius: 9999px;
+        background-color: #fff;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        transition: background-color 0.3s, transform 0.3s;
+      }
+      .theme-switcher:hover {
+        transform: scale(1.05);
+      }
+      /* Overlay efek mesin ketik */
+      #overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        color: #0f0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        padding: 1rem;
+      }
+      #typewriter {
+        font-family: monospace;
+        font-size: 1rem;
+        white-space: pre-wrap;
+      }
+      /* Efek fade-out & fade-in */
+      .fade-out {
+        opacity: 0;
+        transition: opacity 1s ease;
+      }
+      .fade-in {
+        opacity: 0;
+        transition: opacity 1s ease;
+      }
+      .fade-in.visible {
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+    
+    <!-- Overlay: Efek Mesin Ketik -->
+    <div id="overlay">
+      <pre id="typewriter"></pre>
+    </div>
+    
+    <!-- Tombol Dark Mode -->
+    <button id="theme-switcher" class="theme-switcher bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
+      <i id="theme-icon" class="fas fa-moon"></i>
+    </button>
+    
+    <!-- Header (disembunyikan sampai overlay selesai) -->
+    <header id="header" class="fade-in bg-white dark:bg-gray-800 shadow fixed w-full top-0 z-40">
+      <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+        <div class="text-2xl font-bold">Inovixa Technologies</div>
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex space-x-6">
+          <a class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors" href="#">Home</a>
+          <a class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors" href="#companies">Our Companies</a>
+          <a class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors" href="#services">Services</a>
+          <a class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors" href="#about">About</a>
+          <a class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors" href="#contact">Contact</a>
+        </nav>
+        <!-- Tombol Hamburger Mobile -->
+        <div class="md:hidden hamburger">
+          <i class="fas fa-bars text-xl"></i>
+        </div>
+      </div>
+      <!-- Mobile Menu -->
+      <div id="mobile-menu" class="mobile-menu md:hidden bg-white dark:bg-gray-800 hidden">
+        <div class="container mx-auto px-4 py-4 flex flex-col space-y-4">
+          <a class="py-2 hover:text-blue-600 dark:hover:text-blue-400" href="#">Home</a>
+          <a class="py-2 hover:text-blue-600 dark:hover:text-blue-400" href="#companies">Our Companies</a>
+          <a class="py-2 hover:text-blue-600 dark:hover:text-blue-400" href="#services">Services</a>
+          <a class="py-2 hover:text-blue-600 dark:hover:text-blue-400" href="#about">About</a>
+          <a class="py-2 hover:text-blue-600 dark:hover:text-blue-400" href="#contact">Contact</a>
+        </div>
+      </div>
+    </header>
+    
+    <!-- Main Content (disembunyikan sampai overlay selesai) -->
+    <main id="main" class="fade-in container mx-auto px-4 pt-24 pb-10">
+      <!-- Hero Section -->
+      <section class="text-center mb-16">
+        <h1 class="text-4xl md:text-5xl font-bold mb-6">
+          Welcome to Inovixa Technologies
+        </h1>
+        <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+          Innovative solutions for web, mobile, and bot development. Experience the fusion of classic business values with modern technology.
+        </p>
+      </section>
+      
+      <!-- Our Companies Section -->
+      <section id="companies" class="mb-16">
+        <h2 class="text-3xl font-bold text-center mb-8">Our Companies</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- ForestAPI Card -->
+          <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow text-center">
+            <img alt="Logo of ForestAPI" class="mx-auto mb-4 w-24 h-24 object-contain rounded-full" src="https://storage.googleapis.com/a1aa/image/cwkkmaSEoWX7EakcaIcMd4QaFw4x65H12J6LptD9MTY.jpg" width="100" height="100" />
+            <h3 class="text-xl font-bold mb-2">ForestAPI</h3>
+            <p class="text-gray-600 dark:text-gray-300">
+              Your gateway to seamless API integrations and robust backend solutions.
+            </p>
+          </div>
+          <!-- UniShop Card -->
+          <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow text-center">
+            <img alt="Logo of UniShop" class="mx-auto mb-4 w-24 h-24 object-contain rounded-full" src="https://storage.googleapis.com/a1aa/image/C6C9Rsm7e2lH3V7_giHeyzOBRiDHH9bZG5DKTKoIkNY.jpg" width="100" height="100" />
+            <h3 class="text-xl font-bold mb-2">UniShop</h3>
+            <p class="text-gray-600 dark:text-gray-300">
+              Empowering e-commerce with innovative shopping solutions and seamless integrations.
+            </p>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Services Section -->
+      <section id="services" class="mb-16">
+        <h2 class="text-3xl font-bold text-center mb-8">Our Services</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <!-- Web Development Service -->
+          <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow text-center">
+            <i class="fas fa-code text-4xl mb-4 text-blue-600"></i>
+            <h3 class="text-xl font-bold mb-2">Web Development</h3>
+            <p class="text-gray-600 dark:text-gray-300">
+              Building responsive websites with modern design and optimal performance.
+            </p>
+          </div>
+          <!-- Mobile App Development -->
+          <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow text-center">
+            <i class="fas fa-mobile-alt text-4xl mb-4 text-blue-600"></i>
+            <h3 class="text-xl font-bold mb-2">Mobile Applications</h3>
+            <p class="text-gray-600 dark:text-gray-300">
+              Creating user-friendly mobile apps for both Android and iOS platforms.
+            </p>
+          </div>
+          <!-- WhatsApp Bot -->
+          <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow text-center">
+            <i class="fab fa-whatsapp text-4xl mb-4 text-green-500"></i>
+            <h3 class="text-xl font-bold mb-2">WhatsApp Bot</h3>
+            <p class="text-gray-600 dark:text-gray-300">
+              Automating customer interactions and support via WhatsApp.
+            </p>
+          </div>
+          <!-- Telegram Bot -->
+          <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow text-center">
+            <i class="fab fa-telegram-plane text-4xl mb-4 text-blue-500"></i>
+            <h3 class="text-xl font-bold mb-2">Telegram Bot</h3>
+            <p class="text-gray-600 dark:text-gray-300">
+              Delivering fast and reliable solutions through Telegram automation.
+            </p>
+          </div>
+        </div>
+      </section>
+      
+      <!-- About Section -->
+      <section id="about" class="text-center mb-16">
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-3xl font-bold mb-6">About Us</h2>
+          <p class="text-lg text-gray-600 dark:text-gray-300 mb-8">
+            We are a dynamic company dedicated to transforming your digital presence with cutting-edge technology and creative solutions. Our portfolio spans web development, mobile apps, and bot automation.
+          </p>
+          <img alt="Team Photo" class="mx-auto rounded-xl shadow-lg w-full h-auto" src="https://storage.googleapis.com/a1aa/image/AqcKVhCAhJ5b6QsBEdra1GW8n2QtPC2aGLN0S6q4cFA.jpg" width="800" height="400" />
+        </div>
+      </section>
+      
+      <!-- Contact Section -->
+      <section id="contact" class="mb-16">
+        <h2 class="text-3xl font-bold text-center mb-8">Get in Touch</h2>
+        <div class="max-w-2xl mx-auto">
+          <form class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
+            <div class="mb-4">
+              <label class="block text-gray-700 dark:text-gray-200 mb-2" for="name">Name</label>
+              <input class="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600" id="name" type="text" placeholder="Your name">
+            </div>
+            <div class="mb-4">
+              <label class="block text-gray-700 dark:text-gray-200 mb-2" for="email">Email</label>
+              <input class="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600" id="email" type="email" placeholder="Your email">
+            </div>
+            <div class="mb-4">
+              <label class="block text-gray-700 dark:text-gray-200 mb-2" for="message">Message</label>
+              <textarea class="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600" id="message" rows="5" placeholder="Your message"></textarea>
+            </div>
+            <button class="w-full bg-blue-600 text-white p-3 rounded hover:bg-blue-700 transition-colors" type="submit">
+              Send Message
+            </button>
+          </form>
+        </div>
+      </section>
+    </main>
+    
+    <!-- Footer (disembunyikan sampai overlay selesai) -->
+    <footer id="footer" class="fade-in bg-white dark:bg-gray-800 py-8 border-t border-gray-200 dark:border-gray-700">
+      <div class="container mx-auto px-4 text-center">
+        <div class="flex flex-col md:flex-row justify-between items-center mb-6">
+          <div class="mb-4 md:mb-0">
+            <div class="text-xl font-bold mb-2">Inovixa Technologies</div>
+            <p class="text-sm text-gray-600 dark:text-gray-300">Innovating since 2023</p>
+          </div>
+          <div class="flex space-x-6">
+            <a class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400" href="#">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400" href="#">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400" href="#">
+              <i class="fab fa-linkedin-in"></i>
+            </a>
+          </div>
+        </div>
+        <p class="text-sm text-gray-600 dark:text-gray-300">
+          © 2023 Inovixa Technologies. All rights reserved.
+        </p>
+      </div>
+    </footer>
+    
+    <!-- JavaScript -->
+    <script>
+     function startTypewriter(codeText) {
+  const typewriterEl = document.getElementById('typewriter');
+  let index = 0;
+  const chunkSize = Math.ceil(codeText.length / 50); // Ketik beberapa huruf sekaligus
+  const speed = Math.max(1, 10000 / (codeText.length / chunkSize));
+
+  function type() {
+    if (index < codeText.length) {
+      typewriterEl.textContent += codeText.slice(index, index + chunkSize);
+      index += chunkSize;
+      setTimeout(type, speed);
+    } else {
+      setTimeout(() => {
+        document.getElementById('overlay').classList.add('fade-out');
+        setTimeout(() => {
+          document.getElementById('overlay').remove();
+          document.getElementById('header').classList.add('visible');
+          document.getElementById('main').classList.add('visible');
+          document.getElementById('footer').classList.add('visible');
+        }, 500);
+      }, 500);
+    }
+  }
+  type();
+}
+
+
+      
+      // Ambil data JSON dari file code.json
+      fetch('code.json')
+        .then(response => response.json())
+        .then(data => {
+          startTypewriter(data.text);
+        })
+        .catch(err => console.error('Error mengambil kode dari JSON:', err));
+      
+      // Dark Mode Toggle
+      const themeButton = document.getElementById('theme-switcher');
+      const themeIcon = document.getElementById('theme-icon');
+      function toggleTheme() {
+        const isDark = document.documentElement.classList.toggle('dark');
+        themeIcon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      }
+      // Set mode awal
+      if (
+        localStorage.getItem('theme') === 'dark' ||
+        (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)
+      ) {
+        document.documentElement.classList.add('dark');
+        themeIcon.className = 'fas fa-sun';
+      }
+      themeButton.addEventListener('click', toggleTheme);
+      
+      // Hamburger Menu Toggle (Mobile)
+      const hamburger = document.querySelector('.hamburger');
+      const mobileMenu = document.getElementById('mobile-menu');
+      hamburger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        mobileMenu.classList.toggle('hidden');
+      });
+      document.addEventListener('click', (e) => {
+        if (!hamburger.contains(e.target) && !mobileMenu.contains(e.target)) {
+          mobileMenu.classList.add('hidden');
+        }
+      });
+    </script>
+  </body>
+</html>
